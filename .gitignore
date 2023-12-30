@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 proto_alpha/
+tmp/
 
 # C extensions
 *.so
