@@ -65,8 +65,20 @@ sxs = [pt[0] for pt in vertices]
 sys = [pt[1] for pt in vertices]
 szs = [pt[2] for pt in vertices]
 
-fig = plt.figure()
-ax = fig.add_subplot(projection='3d')
-ax.scatter(cxs, cys, czs, c="r")
-ax.scatter(sxs, sys, szs, c="b")
-plt.show()
+#fig = plt.figure()
+#ax = fig.add_subplot(projection='3d')
+#ax.scatter(cxs, cys, czs, c="r")
+#ax.scatter(sxs, sys, szs, c="b")
+#plt.show()
+
+#print(faces)
+outtxt = "mtllib sample_material.mtl\n"
+for pt in vertices:
+    outtxt += f"v {pt[2]} {pt[0]} {pt[1]}\n"
+outtxt += "g tube\n"
+outtxt += "usemtl my_red\n"
+for face in faces:
+    outtxt += f"f {face[0]+1} {face[1]+1} {face[2]+1}\n"
+
+with open("proto/tmp/sample_tube.obj", "w") as ofile:
+    ofile.write(outtxt)
