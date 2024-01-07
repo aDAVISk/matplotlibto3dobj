@@ -2,8 +2,9 @@ import numpy as np
 from matplotlib import colormaps as cmp
 import matplotlib.pyplot as plt
 from scipy.spatial.transform import Rotation
+from progressbar import progressbar
 
-def generate_tube_surface_line(line_points, radius=0.1, num_segments=20):
+def generate_tube_surface_line(line_points, radius=0.1, num_segments=10):
     # Create vertices for the tube surface
     vertices = []
     num_verts_per_point = num_segments
@@ -61,7 +62,7 @@ def generate_tube_surface_line(line_points, radius=0.1, num_segments=20):
     return vertices, faces
 
 
-def line2obj(ax, objfilename, mtlfilename, radius=0.1, num_segments=20):
+def line2obj(ax, objfilename, mtlfilename, radius=0.1, num_segments=10):
 
     #print(ax.lines)
     #print(ax.lines[0].get_data_3d())
@@ -73,7 +74,7 @@ def line2obj(ax, objfilename, mtlfilename, radius=0.1, num_segments=20):
     txt_faces = ""
     txt_materials = ""
     cnt = 0
-    for lines in ax.lines:
+    for lines in progressbar(ax.lines):
         cnt += 1
         linename = f"line-{cnt}"
         mtlname = f"mtl-{cnt}"
@@ -94,7 +95,7 @@ def line2obj(ax, objfilename, mtlfilename, radius=0.1, num_segments=20):
         cnt_vertex += len(vertices)
 
     with open(objfilename, "w") as ofile:
-        ofile.write(f"mtllib {mtlfile}\n")
+        ofile.write(f"mtllib {mtlfilename}\n")
         ofile.write(txt_vertices)
         ofile.write(txt_faces)
     with open(mtlfilename, "w") as ofile:
